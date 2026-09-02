@@ -13,32 +13,68 @@
 
 <form id="quiz">
 
-<p>I enjoy solving technical problems.</p>
+<p>Which technical activity appeals to you most?</p>
 <select id="q1">
-    <option value="developer">Strongly Agree</option>
-    <option value="analyst">Neutral</option>
-    <option value="erp">Disagree</option>
+    <option value="developer">Writing and debugging code</option>
+    <option value="cyber">Investigating security threats</option>
+    <option value="cloud">Configuring cloud servers</option>
+    <option value="dba">Designing database structures</option>
 </select>
 
-<p>I enjoy identifying risks and protecting systems.</p>
+<p>And which of these?</p>
 <select id="q2">
-    <option value="cyber">Strongly Agree</option>
-    <option value="developer">Neutral</option>
-    <option value="erp">Disagree</option>
+    <option value="netadmin">Configuring routers and networks</option>
+    <option value="qa">Finding and documenting bugs</option>
+    <option value="ux">Designing user interfaces</option>
+    <option value="analyst">Building data dashboards</option>
 </select>
 
-<p>I enjoy working with data and dashboards.</p>
+<p>Which business-side task sounds most interesting?</p>
 <select id="q3">
-    <option value="analyst">Strongly Agree</option>
-    <option value="developer">Neutral</option>
-    <option value="cyber">Disagree</option>
+    <option value="bizanalytics">Defining KPIs and metrics</option>
+    <option value="erp">Configuring ERP systems</option>
+    <option value="itconsult">Advising clients on technology</option>
+    <option value="itba">Gathering business requirements</option>
 </select>
 
-<p>I like improving business processes.</p>
+<p>And which of these?</p>
 <select id="q4">
-    <option value="erp">Strongly Agree</option>
-    <option value="analyst">Neutral</option>
-    <option value="developer">Disagree</option>
+    <option value="mgmtconsult">Researching business strategy</option>
+    <option value="pm">Managing project timelines</option>
+    <option value="program">Coordinating multiple projects</option>
+    <option value="sysanalyst">Mapping business processes to systems</option>
+</select>
+
+<p>Which outcome would satisfy you most in a project?</p>
+<select id="q5">
+    <option value="developer">A working app you built from scratch</option>
+    <option value="qa">Zero bugs reaching production</option>
+    <option value="ux">Users saying the product was easy to use</option>
+    <option value="dba">A database that never goes down</option>
+</select>
+
+<p>And which of these?</p>
+<select id="q6">
+    <option value="cyber">No security incidents all year</option>
+    <option value="cloud">Infrastructure that scales smoothly</option>
+    <option value="netadmin">A network with zero downtime</option>
+    <option value="analyst">A dashboard leadership actually uses</option>
+</select>
+
+<p>Which win would feel best on the business side?</p>
+<select id="q7">
+    <option value="erp">A smoother business process after go-live</option>
+    <option value="itba">Requirements everyone agreed on</option>
+    <option value="sysanalyst">A system that finally talks to another system</option>
+    <option value="bizanalytics">A KPI that moved in the right direction</option>
+</select>
+
+<p>And which of these?</p>
+<select id="q8">
+    <option value="itconsult">A client who trusts your recommendation</option>
+    <option value="mgmtconsult">A strategy the executives adopt</option>
+    <option value="pm">A project delivered on time and budget</option>
+    <option value="program">Multiple teams hitting a shared goal</option>
 </select>
 
 <br><br>
@@ -59,13 +95,29 @@ let scores = {
 cyber:0,
 developer:0,
 analyst:0,
-erp:0
+erp:0,
+cloud:0,
+dba:0,
+netadmin:0,
+qa:0,
+ux:0,
+bizanalytics:0,
+itconsult:0,
+itba:0,
+mgmtconsult:0,
+pm:0,
+program:0,
+sysanalyst:0
 };
 
 scores[document.getElementById("q1").value]++;
 scores[document.getElementById("q2").value]++;
 scores[document.getElementById("q3").value]++;
 scores[document.getElementById("q4").value]++;
+scores[document.getElementById("q5").value]++;
+scores[document.getElementById("q6").value]++;
+scores[document.getElementById("q7").value]++;
+scores[document.getElementById("q8").value]++;
 
 let winner = Object.keys(scores).reduce((a,b)=>
 scores[a] > scores[b] ? a : b
@@ -73,9 +125,21 @@ scores[a] > scores[b] ? a : b
 
 const titles = {
 cyber:"Cybersecurity Analyst",
-developer:"Software Developer",
+developer:"Software/App Developer",
 analyst:"Data Analyst",
-erp:"ERP Consultant"
+erp:"ERP/Systems Consultant",
+cloud:"Cloud Infrastructure",
+dba:"Database Administrator",
+netadmin:"Network Administrator",
+qa:"Quality Assurance / Testing Technician",
+ux:"User Experience Designer",
+bizanalytics:"Business Analytics",
+itconsult:"IT Consultant",
+itba:"IT Business Analyst",
+mgmtconsult:"Management Consultant",
+pm:"Project Manager",
+program:"Program Manager",
+sysanalyst:"Systems Analyst"
 };
 
 document.getElementById("result").innerHTML =
