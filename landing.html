@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Retro Y2K / Memphis Landing</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bungee:wght@400;700&family=Montserrat:ital,wght@0,400;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Play CDN (fast prototyping) -->
+    <script>
+      // Tailwind config for custom palette and fonts
+      tailwind = {
+        config: {
+          theme: {
+            extend: {
+              colors: {
+                'y2k-pink': '#FAD2E1',
+                'y2k-lav': '#E2C2FF',
+                'y2k-yellow': '#FFE600',
+                'y2k-cyan': '#38BDF8',
+                'y2k-black': '#0b0b0b'
+              },
+              fontFamily: {
+                display: ['Bungee', 'Impact', 'system-ui'],
+                script: ['Sacramento', 'cursive'],
+                body: ['Montserrat', 'system-ui']
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* extra helpers for Neubrutalism outlines and hard shadows */
+      .nb-outline{border:3px solid #000}
+      .nb-shadow{box-shadow:4px 4px 0 0 rgba(0,0,0,1)}
+      .sticker{filter:drop-shadow(6px 6px 0 rgba(0,0,0,0.9))}
+      /* vintage browser header */
+      .browser-bar{background:linear-gradient(90deg,#FAD2E1,#E2C2FF);height:56px;padding:6px 14px;display:flex;align-items:center;gap:12px}
+      .dot{width:12px;height:12px;border-radius:999px}
+      .dot.red{background:#ff5f56}
+      .dot.yellow{background:#ffbd2e}
+      .dot.green{background:#27c93f}
+      /* small retro stickers */
+      .lightning{width:40px;height:40px;background:linear-gradient(180deg,#ffe600,#ffb84d);clip-path:polygon(40% 0,60% 0,38% 55%,70% 55%,30% 100%,45% 60%,10% 60%);}
+      /* neon text stroke effect */
+      .headline{font-family:var(--font-display);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+      .stroke{color:#fff;text-shadow: -2px -2px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000}
+      /* small responsive tweaks */
+      @media (max-width:900px){
+        .split{flex-direction:column-reverse}
+        .hero-left,.hero-right{width:100%}
+      }
+    </style>
+  </head>
+  <body class="bg-y2k-pink min-h-screen text-y2k-black">
+
+    <div id="root"></div>
+
+    <!-- React + Babel (development/demo only) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide icons (we'll inline a few SVGs) -->
+
+    <script type="text/babel">
+      const {useState, useEffect} = React;
+
+      function Icon({name,className}){
+        const icons = {
+          twitter: `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43 1s-2.1.9-3.62 1.38A4.48 4.48 0 0 0 12 6.5v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5A4.5 4.5 0 0 0 23 3z\"/></svg>`,
+          facebook: `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z\"/></svg>`,
+          insta: `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"2\" y=\"2\" width=\"20\" height=\"20\" rx=\"5\" ry=\"5\"/><path d=\"M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z\"/><line x1=\"17.5\" y1=\"6.5\" x2=\"17.51\" y2=\"6.5\"/></svg>`
+        };
+        return <span className={className} dangerouslySetInnerHTML={{__html: icons[name] || ''}} />
+      }
+
+      function App(){
+        const [dotIndex,setDotIndex] = useState(0);
+        useEffect(()=>{
+          const t = setInterval(()=> setDotIndex(i=> (i+1)%4),3000);
+          return ()=>clearInterval(t);
+        },[])
+
+        return (
+          <div className="relative min-h-screen font-body">
+
+            {/* Browser mock header */}
+            <div className="browser-bar nb-outline nb-shadow z-30">
+              <div className="flex items-center gap-2">
+                <div className="dot red nb-outline"></div>
+                <div className="dot yellow nb-outline"></div>
+                <div className="dot green nb-outline"></div>
+              </div>
+              <nav className="ml-4 flex gap-4 items-center text-sm font-semibold">
+                <a className="px-2 py-1 nb-outline bg-y2k-lav/80 rounded-sm" href="#">Home</a>
+                <a className="px-2 py-1" href="#">About Us</a>
+                <a className="px-2 py-1" href="#">Ticket</a>
+                <a className="px-2 py-1" href="#">Contact</a>
+                <a className="px-2 py-1" href="#">Blog</a>
+              </nav>
+              <div className="ml-auto flex items-center gap-3">
+                <a className="px-3 py-1 nb-outline nb-shadow rounded bg-y2k-yellow/90" href="#">Sign Up</a>
+                <a className="px-3 py-1 nb-outline rounded" href="#">Sign In</a>
+              </div>
+            </div>
+
+            <main className="container mx-auto px-6 py-12 z-20 relative">
+              <section className="flex split items-center gap-8">
+                <div className="hero-left w-1/2 text-left relative z-10">
+                  <div className="inline-block nb-outline bg-y2k-lav/60 p-2 rounded-md shadow-[4px_4px_0_0_rgba(0,0,0,1)] mb-4">
+                    <span className="text-xs font-bold">MUSIC PARTY NIGHT</span>
+                  </div>
+
+                  <h1 className="headline text-6xl leading-tight mt-4 stroke" style={{fontFamily:'Bungee, Impact'}}>
+                    Bring Back <span className="block text-7xl text-y2k-yellow" style={{textShadow:'0 6px 0 #000'}}>THE 90'S</span>
+                  </h1>
+
+                  <p className="mt-4 max-w-md text-sm">A neon-soaked retro pop experience—memphis shapes, chunky borders, and bold Neubrutalist shadows. Live DJs, throwback visuals, and stickers galore.</p>
+
+                  <div className="mt-6 flex items-center gap-4">
+                    <div className="nb-outline nb-shadow px-3 py-2 rounded-full bg-white font-bold">21 DEC • 9PM</div>
+                    <button className="nb-outline nb-shadow bg-y2k-cyan text-white px-4 py-2 rounded-full font-semibold hover:translate-y-[-3px] transition-transform">Get Tickets</button>
+                  </div>
+
+                  <div className="mt-8 flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      {Array.from({length:4}).map((_,i)=> (
+                        <span key={i} className={`w-3 h-3 rounded-full ${i===dotIndex? 'bg-y2k-yellow':'bg-white'} nb-outline`} />
+                      ))}
+                    </div>
+                    <div className="ml-4 flex gap-3">
+                      <div className="sticker lightning"></div>
+                      <div className="w-12 h-8 bg-gradient-to-r from-yellow-300 to-pink-300 rounded-md nb-outline sticker flex items-center justify-center">☆</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="hero-right w-1/2 flex justify-center relative">
+                  <div className="nb-outline nb-shadow p-2 rotate-[-6deg] bg-white" style={{width:320}}>
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="dancer" className="block w-full h-72 object-cover nb-outline"/>
+                  </div>
+                  <div className="absolute right-10 top-10 nb-outline bg-y2k-yellow px-3 py-1 rounded sticker">TONIGHT</div>
+                  <div className="absolute right-[-18px] bottom-4 nb-outline bg-white px-3 py-2 rounded rotate-6 sticker">21 DECEMBER</div>
+                  <div className="absolute left-6 top-[-24px] sticker" style={{transform:'rotate(-8deg)'}}>
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ff62d7" strokeWidth="1.5"><path d="M12 2 L15 9 L22 9 L17 14 L19 21 L12 17 L5 21 L7 14 L2 9 L9 9 Z"/></svg>
+                  </div>
+                </div>
+              </section>
+            </main>
+
+            {/* Floating Social Bar */}
+            <aside className="fixed left-0 top-1/3 bg-y2k-lav/90 nb-outline nb-shadow rounded-r-lg p-2 flex flex-col gap-3 z-40">
+              <a href="#" className="p-2 nb-outline bg-white rounded flex items-center justify-center"><Icon name="twitter"/></a>
+              <a href="#" className="p-2 nb-outline bg-white rounded flex items-center justify-center"><Icon name="facebook"/></a>
+              <a href="#" className="p-2 nb-outline bg-white rounded flex items-center justify-center"><Icon name="insta"/></a>
+            </aside>
+
+            <footer className="absolute bottom-6 left-0 right-0 text-center z-20">
+              <div className="inline-block nb-outline bg-white/90 px-4 py-2 rounded">© Retro Fest 1999</div>
+            </footer>
+          </div>
+        )
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />)
+    </script>
+  </body>
+</html>
