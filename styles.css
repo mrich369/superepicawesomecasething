@@ -177,3 +177,26 @@ a{color:#7c3cff}
 	.topbar{padding:10px 14px}
 	.home-btn{top:10px;right:10px;padding:8px 12px;font-size:10px}
 }
+
+/* Homepage-specific: enlarge cards to better fill the hero area */
+.home .cards{
+	display:grid;
+	grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+	gap:28px;
+	max-width:1200px;
+	margin:48px auto 80px;
+}
+.home .card{
+	width:100%;
+	padding:36px;
+	min-height:260px;
+	font-size:1.02rem;
+	border-width:4px;
+}
+.home .card h2{font-size:1.5rem}
+.home .card p{font-size:1.05rem}
+
+@media (max-width:900px){
+	.home .cards{grid-template-columns:1fr}
+	.home .card{min-height:180px;padding:22px}
+}
