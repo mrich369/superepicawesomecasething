@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview Practice</title>
+    styles.css
+</head>
+<body>
+
+<h1>Interview Practice</h1>
+
+<select id="careerSelect">
+    <option>Select Career</option>
+    <option>Cybersecurity Analyst</option>
+    <option>Software Developer</option>
+    <option>Data Analyst</option>
+    <option>ERP Consultant</option>
+</select>
+
+<div id="questions"></div>
+
+<script>
+
+const questions = {
+
+"Cybersecurity Analyst":[
+"What is the CIA Triad and how is it used in cybersecurity?",
+"What steps would you take after detecting a phishing attack?",
+"Explain the difference between a vulnerability and an exploit."
+],
+
+"Software Developer":[
+"Explain the difference between a stack and a queue.",
+"What is Big O notation and why does it matter?",
+"Describe how REST APIs work."
+],
+
+"Data Analyst":[
+"Write a SQL query that returns the top 5 customers by revenue.",
+"What is the difference between INNER JOIN and LEFT JOIN?",
+"How would you handle missing data in a dataset?"
+],
+
+"ERP Consultant":[
+"Describe an ERP system and the business value it provides.",
+"What is the difference between configuration and customization?",
+"How would you gather client requirements for a new ERP module?"
+]
+
+};
+
+document.getElementById("careerSelect").addEventListener("change", function() {
+
+const selected = this.value;
+
+let html = "";
+
+questions[selected].forEach(q => {
+
+html += `
+<div class="question">
+    <h3>${q}</h3>
+    <textarea rows="4" placeholder="Type your answer here"></textarea>
+</div>
+`;
+
+});
+
+document.getElementById("questions").innerHTML = html;
+
+});
+
+</script>
+
+</body>
+</html>

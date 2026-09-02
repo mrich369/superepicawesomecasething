@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discover Your Career</title>
+    styles.css
+</head>
+<body>
+
+<h1>Career Discovery Quiz</h1>
+
+<form id="quiz">
+
+<p>I enjoy solving technical problems.</p>
+<select id="q1">
+    <option value="developer">Strongly Agree</option>
+    <option value="analyst">Neutral</option>
+    <option value="erp">Disagree</option>
+</select>
+
+<p>I enjoy identifying risks and protecting systems.</p>
+<select id="q2">
+    <option value="cyber">Strongly Agree</option>
+    <option value="developer">Neutral</option>
+    <option value="erp">Disagree</option>
+</select>
+
+<p>I enjoy working with data and dashboards.</p>
+<select id="q3">
+    <option value="analyst">Strongly Agree</option>
+    <option value="developer">Neutral</option>
+    <option value="cyber">Disagree</option>
+</select>
+
+<p>I like improving business processes.</p>
+<select id="q4">
+    <option value="erp">Strongly Agree</option>
+    <option value="analyst">Neutral</option>
+    <option value="developer">Disagree</option>
+</select>
+
+<br><br>
+
+<button type="button" onclick="calculateCareer()">
+Find My Career
+</button>
+
+</form>
+
+<h2 id="result"></h2>
+
+<script>
+
+function calculateCareer(){
+
+let scores = {
+cyber:0,
+developer:0,
+analyst:0,
+erp:0
+};
+
+scores[document.getElementById("q1").value]++;
+scores[document.getElementById("q2").value]++;
+scores[document.getElementById("q3").value]++;
+scores[document.getElementById("q4").value]++;
+
+let winner = Object.keys(scores).reduce((a,b)=>
+scores[a] > scores[b] ? a : b
+);
+
+const titles = {
+cyber:"Cybersecurity Analyst",
+developer:"Software Developer",
+analyst:"Data Analyst",
+erp:"ERP Consultant"
+};
+
+document.getElementById("result").innerHTML =
+"Recommended Career: " + titles[winner];
+}
+
+</script>
+
+</body>
+</html>
