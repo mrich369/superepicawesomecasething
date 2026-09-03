@@ -58,6 +58,8 @@ body::after{ width:340px;height:340px;right:-120px;bottom:-120px;transform:rotat
 
 h1{font-family:'Bungee', Impact, sans-serif;text-transform:none;}
 
+.hidden{display:none !important;}
+
 .cards{display:flex;justify-content:center;gap:22px;margin:36px auto 60px;flex-wrap:nowrap;z-index:2;position:relative;max-width:1100px;padding:0 20px;}
 
 .home-center{
@@ -221,6 +223,16 @@ select{
 }
 .home-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 rgba(0,0,0,1)}
 .home-btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 0 rgba(0,0,0,1)}
+
+.ai-disclosure-button{
+	position:fixed;left:16px;bottom:16px;z-index:1000;
+	padding:8px 12px;border:3px solid var(--ink);border-radius:999px;
+	background:var(--y2k-lav);color:var(--ink);font-family:'Bungee',sans-serif;
+	font-size:10px;letter-spacing:0.5px;cursor:pointer;
+	box-shadow:4px 4px 0 0 rgba(0,0,0,1);transition:transform .15s ease, box-shadow .15s ease;
+}
+.ai-disclosure-button:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 rgba(0,0,0,1)}
+.ai-disclosure-button:active{transform:translate(1px,1px);box-shadow:2px 2px 0 0 rgba(0,0,0,1)}
 
 a{color:#7c3cff}
 
