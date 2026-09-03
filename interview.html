@@ -9,72 +9,64 @@
 <p><a class="home-btn" href="index.html">Return to Home Page</a></p>
 
 <div class="home-center">
-<h1>Interview Practice</h1>
+<div class="quiz-wrap">
 
-<select id="careerSelect">
-    <option>Select Career</option>
-    <option>Cybersecurity Analyst</option>
-    <option>Software Developer</option>
-    <option>Data Analyst</option>
-    <option>ERP Consultant</option>
-</select>
+    <h1>Interview Practice</h1>
+    <p class="quiz-subtitle">Pick a career, and we'll give you 3 randomized behavioral and technical questions with instant feedback on your answers &mdash; no AI grading, just keyword coverage, length, and clarity checks.</p>
 
-<div id="questions"></div>
+    <select id="careerSelect">
+        <option value="">Select a career to practice</option>
+        <option value="cyber">Cybersecurity Analyst</option>
+        <option value="developer">Software/App Developer</option>
+        <option value="analyst">Data Analyst</option>
+        <option value="erp">ERP/Systems Consultant</option>
+        <option value="cloud">Cloud Infrastructure</option>
+        <option value="dba">Database Administrator</option>
+        <option value="netadmin">Network Administrator</option>
+        <option value="qa">Quality Assurance / Testing Technician</option>
+        <option value="bizanalytics">Business Analytics</option>
+        <option value="itba">IT Business Analyst</option>
+        <option value="itconsult">IT Consultant</option>
+        <option value="mgmtconsult">Management Consultant</option>
+        <option value="program">Program Manager</option>
+        <option value="pm">Project Manager</option>
+        <option value="sysanalyst">Systems Analyst</option>
+        <option value="ux">User Experience Designer</option>
+    </select>
 
-<script>
+    <div id="interviewView" style="display:none;">
 
-const questions = {
+        <div class="quiz-meta">
+            <span id="qCounter">Question 1 of 3</span>
+            <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+        </div>
 
-"Cybersecurity Analyst":[
-"What is the CIA Triad and how is it used in cybersecurity?",
-"What steps would you take after detecting a phishing attack?",
-"Explain the difference between a vulnerability and an exploit."
-],
+        <span id="qTypeLabel" class="qtype-badge">Behavioral</span>
+        <h2 id="questionText" class="question-text"></h2>
 
-"Software Developer":[
-"Explain the difference between a stack and a queue.",
-"What is Big O notation and why does it matter?",
-"Describe how REST APIs work."
-],
+        <textarea id="answerBox" rows="6" placeholder="Type your answer here..."></textarea>
+        <span id="wordCount" class="word-count">0 words</span>
 
-"Data Analyst":[
-"Write a SQL query that returns the top 5 customers by revenue.",
-"What is the difference between INNER JOIN and LEFT JOIN?",
-"How would you handle missing data in a dataset?"
-],
+        <button id="submitBtn" type="button" class="nav-btn primary">Submit Answer</button>
 
-"ERP Consultant":[
-"Describe an ERP system and the business value it provides.",
-"What is the difference between configuration and customization?",
-"How would you gather client requirements for a new ERP module?"
-]
+        <div id="feedbackWrap"></div>
 
-};
+        <div class="results-actions">
+            <button id="restartBtn" type="button" class="nav-btn secondary">Choose a Different Career</button>
+        </div>
 
-document.getElementById("careerSelect").addEventListener("change", function() {
+    </div>
 
-const selected = this.value;
-
-let html = "";
-
-questions[selected].forEach(q => {
-
-html += `
-<div class="question">
-    <h3>${q}</h3>
-    <textarea rows="4" placeholder="Type your answer here"></textarea>
-</div>
-`;
-
-});
-
-document.getElementById("questions").innerHTML = html;
-
-});
-
-</script>
+    <div id="doneView" class="done-view" style="display:none;">
+        <h2>Nice work &mdash; session complete!</h2>
+        <p class="quiz-subtitle">You answered 3 questions for this career. Practice another round, or try a different career track.</p>
+        <button id="restartBtn2" type="button" class="nav-btn primary">Practice Another Career</button>
+    </div>
 
 </div>
+</div>
+
+<script src="interview-app.js"></script>
 
 </body>
 </html>
