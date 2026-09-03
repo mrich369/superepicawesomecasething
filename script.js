@@ -15,6 +15,34 @@ content.style.display = "block";
 
 });
 
+});
+
+const aiDisclosureButton = document.getElementById('aiDisclosureButton');
+const aiDisclosureModal = document.getElementById('aiDisclosureModal');
+
+if (aiDisclosureButton && aiDisclosureModal) {
+	aiDisclosureButton.addEventListener('click', () => {
+		aiDisclosureModal.classList.remove('hidden');
+	});
+
+	const aiDisclosureClose = aiDisclosureModal.querySelector('.close-btn');
+	aiDisclosureClose?.addEventListener('click', () => {
+		aiDisclosureModal.classList.add('hidden');
+	});
+
+	aiDisclosureModal.addEventListener('click', (event) => {
+		if (event.target === aiDisclosureModal) {
+			aiDisclosureModal.classList.add('hidden');
+		}
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') {
+			aiDisclosureModal.classList.add('hidden');
+		}
+	});
+}
+
 // On load: if ?career=... is present, open corresponding accordion
 window.addEventListener('DOMContentLoaded', () => {
 	const params = new URLSearchParams(window.location.search);
@@ -33,6 +61,4 @@ window.addEventListener('DOMContentLoaded', () => {
 			btn.scrollIntoView({behavior:'smooth', block:'center'});
 		}
 	}
-});
-
 });
