@@ -9,182 +9,420 @@
 <p><a class="home-btn" href="index.html">Return to Home Page</a></p>
 
 <div class="home-center">
-<h1>Career Discovery Quiz</h1>
+<div class="quiz-wrap">
 
-<form id="quiz">
+<h1 id="pageTitle">Which IS Career Is Right for You?</h1>
+<p class="quiz-subtitle" id="pageSubtitle">Answer 12 questions to discover which IS career paths best match your interests, strengths, and preferred way of working.</p>
 
-<p>Which technical activity appeals to you most?</p>
-<select id="q1">
-    <option value="developer">Writing and debugging code</option>
-    <option value="cyber">Investigating security threats</option>
-    <option value="cloud">Configuring cloud servers</option>
-    <option value="dba">Designing database structures</option>
-</select>
+<div id="quizView">
 
-<p>And which of these?</p>
-<select id="q2">
-    <option value="netadmin">Configuring routers and networks</option>
-    <option value="qa">Finding and documenting bugs</option>
-    <option value="ux">Designing user interfaces</option>
-    <option value="analyst">Building data dashboards</option>
-</select>
-
-<p>Which business-side task sounds most interesting?</p>
-<select id="q3">
-    <option value="bizanalytics">Defining KPIs and metrics</option>
-    <option value="erp">Configuring ERP systems</option>
-    <option value="itconsult">Advising clients on technology</option>
-    <option value="itba">Gathering business requirements</option>
-</select>
-
-<p>And which of these?</p>
-<select id="q4">
-    <option value="mgmtconsult">Researching business strategy</option>
-    <option value="pm">Managing project timelines</option>
-    <option value="program">Coordinating multiple projects</option>
-    <option value="sysanalyst">Mapping business processes to systems</option>
-</select>
-
-<p>Which outcome would satisfy you most in a project?</p>
-<select id="q5">
-    <option value="developer">A working app you built from scratch</option>
-    <option value="qa">Zero bugs reaching production</option>
-    <option value="ux">Users saying the product was easy to use</option>
-    <option value="dba">A database that never goes down</option>
-</select>
-
-<p>And which of these?</p>
-<select id="q6">
-    <option value="cyber">No security incidents all year</option>
-    <option value="cloud">Infrastructure that scales smoothly</option>
-    <option value="netadmin">A network with zero downtime</option>
-    <option value="analyst">A dashboard leadership actually uses</option>
-</select>
-
-<p>Which win would feel best on the business side?</p>
-<select id="q7">
-    <option value="erp">A smoother business process after go-live</option>
-    <option value="itba">Requirements everyone agreed on</option>
-    <option value="sysanalyst">A system that finally talks to another system</option>
-    <option value="bizanalytics">A KPI that moved in the right direction</option>
-</select>
-
-<p>And which of these?</p>
-<select id="q8">
-    <option value="itconsult">A client who trusts your recommendation</option>
-    <option value="mgmtconsult">A strategy the executives adopt</option>
-    <option value="pm">A project delivered on time and budget</option>
-    <option value="program">Multiple teams hitting a shared goal</option>
-</select>
-
-<br><br>
-
-<button type="button" onclick="calculateCareer()">
-Find My Career
-</button>
-
-</form>
-
-<h2 id="result"></h2>
-
-<script>
-
-function calculateCareer(){
-
-let scores = {
-cyber:0,
-developer:0,
-analyst:0,
-erp:0,
-cloud:0,
-dba:0,
-netadmin:0,
-qa:0,
-ux:0,
-bizanalytics:0,
-itconsult:0,
-itba:0,
-mgmtconsult:0,
-pm:0,
-program:0,
-sysanalyst:0
-};
-
-scores[document.getElementById("q1").value]++;
-scores[document.getElementById("q2").value]++;
-scores[document.getElementById("q3").value]++;
-scores[document.getElementById("q4").value]++;
-scores[document.getElementById("q5").value]++;
-scores[document.getElementById("q6").value]++;
-scores[document.getElementById("q7").value]++;
-scores[document.getElementById("q8").value]++;
-
-let winner = Object.keys(scores).reduce((a,b)=>
-scores[a] > scores[b] ? a : b
-);
-
-const titles = {
-cyber:"Cybersecurity Analyst",
-developer:"Software/App Developer",
-analyst:"Data Analyst",
-erp:"ERP/Systems Consultant",
-cloud:"Cloud Infrastructure",
-dba:"Database Administrator",
-netadmin:"Network Administrator",
-qa:"Quality Assurance / Testing Technician",
-ux:"User Experience Designer",
-bizanalytics:"Business Analytics",
-itconsult:"IT Consultant",
-itba:"IT Business Analyst",
-mgmtconsult:"Management Consultant",
-pm:"Project Manager",
-program:"Program Manager",
-sysanalyst:"Systems Analyst"
-};
-
-document.getElementById("result").innerHTML =
-"Recommended Career: " + titles[winner];
-
-// remove existing modal if present
-const existing = document.querySelector('.modal-overlay');
-if(existing) existing.remove();
-
-// create modal overlay with just the career name and a learn-more link plus close button
-const overlay = document.createElement('div');
-overlay.className = 'modal-overlay';
-overlay.innerHTML = `
-    <div class="modal" role="dialog" aria-modal="true" aria-label="Career recommendation">
-        <button class="close-btn" aria-label="Close">✖</button>
-        <h2>${titles[winner]}</h2>
-        <a class="learn-more" href="explore.html?career=${winner}">Learn more!</a>
+    <div class="quiz-meta">
+        <span id="qCounter">Question 1 of 12</span>
+        <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
     </div>
-`;
-// close when clicking outside modal
-overlay.addEventListener('click', (e) => {
-    if(e.target === overlay) overlay.remove();
-});
 
-document.body.appendChild(overlay);
+    <h2 id="questionText" class="question-text"></h2>
 
-// close handlers: button and Escape key
-const closeBtn = overlay.querySelector('.close-btn');
-if(closeBtn){
-    closeBtn.addEventListener('click', () => overlay.remove());
-}
-const escHandler = (e) => {
-    if(e.key === 'Escape'){
-        overlay.remove();
-        window.removeEventListener('keydown', escHandler);
-    }
-};
-window.addEventListener('keydown', escHandler);
-}
+    <div id="answerList" class="answer-list"></div>
 
-</script>
+    <div class="quiz-nav">
+        <button id="backBtn" type="button" class="nav-btn secondary">Back</button>
+        <button id="nextBtn" type="button" class="nav-btn primary" disabled>Next</button>
+    </div>
 
 </div>
 
+<div id="resultsView" style="display:none;">
+
+    <h2 class="results-heading">Your Best Career Match</h2>
+    <div id="bestMatchWrap"></div>
+
+    <h3 class="ranking-heading">Your Career Ranking</h3>
+    <ol id="rankingList" class="ranking-list"></ol>
+
+    <div class="results-actions">
+        <button id="restartBtn" type="button" class="nav-btn secondary">Restart Assessment</button>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* ---------------------------------------------------------------
+   SCORING DATA — kept fully separate from the UI so it can be
+   edited independently. Careers are referenced by short keys that
+   match the accordion order in explore.html / script.js.
+---------------------------------------------------------------- */
+
+const CAREER_KEYS = [
+    "cloud","cyber","dba","netadmin","qa","developer","ux",
+    "bizanalytics","analyst","erp","itba","itconsult",
+    "mgmtconsult","program","pm","sysanalyst"
+];
+
+const CAREER_TITLES = {
+    cloud:"Cloud Infrastructure",
+    cyber:"Cybersecurity Analyst",
+    dba:"Database Administrator",
+    netadmin:"Network Administrator",
+    qa:"Quality Assurance / Testing Technician",
+    developer:"Software/App Developer",
+    ux:"User Experience Designer",
+    bizanalytics:"Business Analytics",
+    analyst:"Data Analyst",
+    erp:"ERP/Systems Consultant",
+    itba:"IT Business Analyst",
+    itconsult:"IT Consultant",
+    mgmtconsult:"Management Consultant",
+    program:"Program Manager",
+    pm:"Project Manager",
+    sysanalyst:"Systems Analyst"
+};
+
+const CAREER_EXPLANATIONS = {
+    cyber:"Your answers suggest that you enjoy investigating complex problems, thinking about potential risks, and understanding how technology can be protected. You may enjoy work that requires curiosity, attention to detail, and analytical problem-solving.",
+    developer:"Your answers suggest you're energized by building things - turning an idea into a working piece of software through writing, testing, and refining code. You likely enjoy hands-on problem-solving and seeing your work come to life as something people can actually use.",
+    analyst:"Your answers suggest you enjoy digging into data to uncover patterns and insights that others might miss. You likely find satisfaction in turning raw information into evidence that helps an organization make better decisions.",
+    erp:"Your answers suggest you're drawn to helping organizations get more value out of large enterprise systems by connecting technology to real business processes. You likely enjoy work that blends technical configuration with a deep understanding of how a business runs.",
+    bizanalytics:"Your answers suggest you enjoy combining data with business context to understand what's really driving performance. You likely find it satisfying to translate analysis into strategic or operational recommendations leadership can act on.",
+    cloud:"Your answers suggest you enjoy designing and maintaining the technical infrastructure that keeps an organization's applications running reliably. You likely appreciate working behind the scenes on systems that need to scale and perform under pressure.",
+    dba:"Your answers suggest you take satisfaction in keeping information organized, accurate, and dependable. You likely enjoy the technical precision involved in managing databases so the rest of the organization can trust and access its data.",
+    itconsult:"Your answers suggest you enjoy working directly with clients to understand a business problem and figure out the right technology solution. You likely thrive on variety, client interaction, and translating technical options into practical recommendations.",
+    netadmin:"Your answers suggest you enjoy making sure an organization's systems can communicate reliably, and you're comfortable troubleshooting when something isn't working. You likely find satisfaction in keeping complex technical environments dependable.",
+    qa:"Your answers suggest you have a sharp eye for detail and enjoy systematically figuring out where and why something breaks. You likely find satisfaction in making sure a product is solid and reliable before it reaches real users.",
+    itba:"Your answers suggest you enjoy listening closely to what people and organizations actually need, then translating that into clear requirements for a technology solution. You likely find satisfaction in bridging the gap between business users and technical teams.",
+    mgmtconsult:"Your answers suggest you enjoy stepping back to look at an organization's bigger picture and figuring out how it could operate more effectively. You likely find satisfaction in structured problem-solving and shaping strategic recommendations.",
+    program:"Your answers suggest you enjoy thinking about how multiple projects fit together to accomplish something bigger for an organization. You likely find satisfaction in coordinating across teams and keeping everyone aligned toward a shared goal.",
+    pm:"Your answers suggest you enjoy bringing structure to complex work - managing scope, timelines, and communication so a project actually gets delivered. You likely find satisfaction in keeping a team organized and on track.",
+    sysanalyst:"Your answers suggest you enjoy understanding how an organization's technology, people, and processes fit together, and figuring out where improvements could be made. You likely find satisfaction in analyzing systems holistically before recommending a change.",
+    ux:"Your answers suggest you enjoy understanding how people think and behave, then designing technology that feels intuitive and enjoyable to use. You likely find satisfaction in shaping an experience around real user needs."
+};
+
+// Questions in which the tiebreaker is calculated (1-based question numbers)
+const TIEBREAK_QUESTIONS = [2,4,6,9,12];
+
+const QUESTIONS = [
+    {
+        prompt:"You are given a complicated problem with no obvious solution. What sounds most satisfying?",
+        options:[
+            {text:"Investigating what went wrong and identifying potential security risks.", primary:"cyber", secondary:"sysanalyst"},
+            {text:"Understanding how the existing system works and figuring out how the process could be improved.", primary:"sysanalyst", secondary:"itba"},
+            {text:"Examining the data to find patterns and evidence that explain the problem.", primary:"analyst", secondary:"bizanalytics"},
+            {text:"Experimenting with possible solutions and building a technical solution.", primary:"developer", secondary:"qa"}
+        ]
+    },
+    {
+        prompt:"Which project would you most enjoy?",
+        options:[
+            {text:"Designing and building an application that people can use.", primary:"developer", secondary:"ux"},
+            {text:"Designing the technology infrastructure needed to reliably support an organization's applications.", primary:"cloud", secondary:"netadmin"},
+            {text:"Organizing and maintaining the databases that store an organization's critical information.", primary:"dba", secondary:"analyst"},
+            {text:"Designing a network that allows an organization's computers and systems to communicate reliably.", primary:"netadmin", secondary:"cloud"}
+        ]
+    },
+    {
+        prompt:"A company has a huge amount of information but isn't using it effectively. What would you most want to do?",
+        options:[
+            {text:"Analyze the data to discover trends and insights that could improve decisions.", primary:"analyst", secondary:"bizanalytics"},
+            {text:"Combine business knowledge and analytics to determine what the data means for the company's strategy and performance.", primary:"bizanalytics", secondary:"analyst"},
+            {text:"Make sure the underlying databases are organized, reliable, secure, and accessible.", primary:"dba", secondary:"sysanalyst"},
+            {text:"Investigate the organization's technology and processes to determine whether they are operating effectively and securely.", primary:"cyber", secondary:"itba"}
+        ]
+    },
+    {
+        prompt:"You are helping an organization adopt a new technology. Which role sounds most appealing?",
+        options:[
+            {text:"Work directly with the client to understand their problem and recommend a technology solution.", primary:"itconsult", secondary:"mgmtconsult"},
+            {text:"Help the organization implement and configure a large enterprise system across its business processes.", primary:"erp", secondary:"itconsult"},
+            {text:"Analyze the organization's needs and translate them into requirements for a new information system.", primary:"itba", secondary:"sysanalyst"},
+            {text:"Lead the overall initiative, coordinate the teams involved, and make sure the technology is successfully delivered.", primary:"program", secondary:"pm"}
+        ]
+    },
+    {
+        prompt:"Which activity would you be happiest doing for several hours?",
+        options:[
+            {text:"Testing software, finding bugs, and making sure a product works correctly before users receive it.", primary:"qa", secondary:"developer"},
+            {text:"Interviewing users, understanding their needs, and translating those needs into requirements for a technology solution.", primary:"itba", secondary:"sysanalyst"},
+            {text:"Creating project plans, tracking deadlines, coordinating tasks, and keeping a team on schedule.", primary:"pm", secondary:"program"},
+            {text:"Coordinating multiple related projects and making sure they collectively accomplish a larger organizational goal.", primary:"program", secondary:"pm"}
+        ]
+    },
+    {
+        prompt:"You're asked to improve a company's customer experience with a new digital product. What would you most want to do?",
+        options:[
+            {text:"Research how users think and behave, design the experience, and create intuitive interfaces.", primary:"ux", secondary:"itba"},
+            {text:"Analyze customer behavior and business data to determine what improvements would have the greatest impact.", primary:"bizanalytics", secondary:"analyst"},
+            {text:"Build the software that powers the new product.", primary:"developer", secondary:"ux"},
+            {text:"Study the organization more broadly and recommend changes that could improve its strategy, operations, or performance.", primary:"mgmtconsult", secondary:"itconsult"}
+        ]
+    },
+    {
+        prompt:"Which statement sounds most like you?",
+        options:[
+            {text:"I naturally think about what could go wrong and how systems could be protected.", primary:"cyber", secondary:"netadmin"},
+            {text:"I enjoy understanding how technology works and keeping complex technical environments running reliably.", primary:"cloud", secondary:"netadmin"},
+            {text:"I like making sure information is organized, accurate, and accessible.", primary:"dba", secondary:"analyst"},
+            {text:"I enjoy understanding how an organization's technology, people, and processes fit together.", primary:"sysanalyst", secondary:"itba"}
+        ]
+    },
+    {
+        prompt:"Imagine you're working with a client who says, \"Our technology isn't working for our business.\" What would you want to do?",
+        options:[
+            {text:"Diagnose the technical environment and determine what infrastructure or network changes are needed.", primary:"netadmin", secondary:"cloud"},
+            {text:"Interview the client, understand their needs, and recommend a technology solution to their business problem.", primary:"itconsult", secondary:"erp"},
+            {text:"Analyze the organization's systems and requirements and determine what changes should be made to the information system.", primary:"sysanalyst", secondary:"itba"},
+            {text:"Look at the organization more broadly and develop recommendations for improving its strategy, operations, or performance.", primary:"mgmtconsult", secondary:"itconsult"}
+        ]
+    },
+    {
+        prompt:"Which accomplishment would make you feel the most satisfied?",
+        options:[
+            {text:"Successfully preventing a security incident or identifying a serious vulnerability.", primary:"cyber", secondary:"netadmin"},
+            {text:"Building a piece of software that thousands of people use.", primary:"developer", secondary:"ux"},
+            {text:"Discovering an important insight in data that changes a business decision.", primary:"analyst", secondary:"bizanalytics"},
+            {text:"Helping an organization transform the way it operates by successfully implementing a new enterprise system.", primary:"erp", secondary:"itconsult"}
+        ]
+    },
+    {
+        prompt:"Which type of problem would you actually enjoy solving?",
+        options:[
+            {text:"A company's network is experiencing reliability problems, and you need to diagnose and fix the issue.", primary:"netadmin", secondary:"cloud"},
+            {text:"A company's cloud environment isn't performing properly, and you need to determine how its infrastructure should be configured or improved.", primary:"cloud", secondary:"netadmin"},
+            {text:"An application has inconsistent behavior, and you need to systematically test it to determine exactly where the defects are.", primary:"qa", secondary:"developer"},
+            {text:"A company's database is slow or unreliable, and you need to determine how its data systems should be optimized.", primary:"dba", secondary:"analyst"}
+        ]
+    },
+    {
+        prompt:"Which role sounds most appealing?",
+        options:[
+            {text:"Lead projects by managing scope, timelines, resources, and communication between team members.", primary:"pm", secondary:"program"},
+            {text:"Coordinate multiple related projects and make sure they collectively accomplish a larger organizational goal.", primary:"program", secondary:"pm"},
+            {text:"Work with business users to understand their needs and translate those needs into technical requirements.", primary:"itba", secondary:"sysanalyst"},
+            {text:"Help organizations solve complex strategic and operational problems and recommend improvements.", primary:"mgmtconsult", secondary:"itconsult"}
+        ]
+    },
+    {
+        prompt:"What kind of work would you most like to be known for?",
+        options:[
+            {text:"Creating technology that is intuitive, useful, and enjoyable for people to interact with.", primary:"ux", secondary:"developer"},
+            {text:"Helping businesses use technology and information more effectively to make better decisions.", primary:"bizanalytics", secondary:"analyst"},
+            {text:"Understanding complex systems and determining how different technical and business components should work together.", primary:"sysanalyst", secondary:"itba"},
+            {text:"Helping organizations successfully deliver major technology initiatives from planning through implementation.", primary:"erp", secondary:"program"}
+        ]
+    }
+];
+
+/* ---------------------------------------------------------------
+   SCORING LOGIC — pure functions, no DOM access.
+---------------------------------------------------------------- */
+
+function scoreAnswers(answers){
+    const scores = {};
+    const tie = {};
+    CAREER_KEYS.forEach(k => { scores[k] = 0; tie[k] = 0; });
+
+    QUESTIONS.forEach((q, qi) => {
+        const chosenIdx = answers[qi];
+        if(chosenIdx === null || chosenIdx === undefined) return;
+        const opt = q.options[chosenIdx];
+        scores[opt.primary] += 3;
+        scores[opt.secondary] += 1;
+        if(TIEBREAK_QUESTIONS.includes(qi + 1)){
+            tie[opt.primary] += 3;
+            tie[opt.secondary] += 1;
+        }
+    });
+
+    return { scores, tie };
+}
+
+function rankCareers(scores, tie){
+    const list = CAREER_KEYS.map(k => ({
+        key:k,
+        title:CAREER_TITLES[k],
+        score:scores[k],
+        tie:tie[k]
+    }));
+
+    list.sort((a,b) => b.score - a.score || b.tie - a.tie || a.title.localeCompare(b.title));
+
+    const maxScore = list[0].score;
+    const topGroup = list.filter(c => c.score === maxScore);
+
+    let bestKeys;
+    if(topGroup.length === 1){
+        bestKeys = [topGroup[0].key];
+    } else {
+        const maxTie = Math.max(...topGroup.map(c => c.tie));
+        bestKeys = topGroup.filter(c => c.tie === maxTie).map(c => c.key);
+    }
+
+    list.forEach(c => {
+        if(bestKeys.includes(c.key)){
+            c.label = "Best Match";
+        } else {
+            const diff = maxScore - c.score;
+            if(diff <= 2) c.label = "Strong Match";
+            else if(diff <= 5) c.label = "Good Match";
+            else c.label = "Possible Match";
+        }
+    });
+
+    return { list, bestKeys };
+}
+
+/* ---------------------------------------------------------------
+   UI STATE + RENDERING
+---------------------------------------------------------------- */
+
+let answers = new Array(QUESTIONS.length).fill(null);
+let currentIndex = 0;
+
+const qCounter = document.getElementById("qCounter");
+const progressFill = document.getElementById("progressFill");
+const questionText = document.getElementById("questionText");
+const answerList = document.getElementById("answerList");
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
+const quizView = document.getElementById("quizView");
+const resultsView = document.getElementById("resultsView");
+const bestMatchWrap = document.getElementById("bestMatchWrap");
+const rankingList = document.getElementById("rankingList");
+const restartBtn = document.getElementById("restartBtn");
+const pageSubtitle = document.getElementById("pageSubtitle");
+
+function renderQuestion(){
+    const q = QUESTIONS[currentIndex];
+
+    qCounter.textContent = "Question " + (currentIndex + 1) + " of " + QUESTIONS.length;
+    progressFill.style.width = Math.round((currentIndex / QUESTIONS.length) * 100) + "%";
+
+    questionText.textContent = q.prompt;
+
+    answerList.innerHTML = "";
+    q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "answer-btn" + (answers[currentIndex] === idx ? " selected" : "");
+        btn.textContent = opt.text;
+        btn.addEventListener("click", () => selectAnswer(idx));
+        answerList.appendChild(btn);
+    });
+
+    backBtn.style.display = currentIndex === 0 ? "none" : "inline-block";
+    nextBtn.textContent = currentIndex === QUESTIONS.length - 1 ? "See My Results" : "Next";
+    nextBtn.disabled = answers[currentIndex] === null;
+}
+
+function selectAnswer(idx){
+    answers[currentIndex] = idx;
+    renderQuestion();
+}
+
+function goNext(){
+    if(answers[currentIndex] === null) return;
+    if(currentIndex === QUESTIONS.length - 1){
+        showResults();
+    } else {
+        currentIndex++;
+        renderQuestion();
+    }
+}
+
+function goBack(){
+    if(currentIndex === 0) return;
+    currentIndex--;
+    renderQuestion();
+}
+
+function buildExploreLink(key){
+    const a = document.createElement("a");
+    a.href = "explore.html?career=" + key;
+    a.className = "explore-btn";
+    a.textContent = "Explore this career";
+    return a;
+}
+
+function showResults(){
+    quizView.style.display = "none";
+    resultsView.style.display = "block";
+    pageSubtitle.textContent = "Here's what your answers say about your best-fit Information Systems career path.";
+
+    const { scores, tie } = scoreAnswers(answers);
+    const { list, bestKeys } = rankCareers(scores, tie);
+
+    bestMatchWrap.innerHTML = "";
+    bestKeys.forEach(key => {
+        const card = document.createElement("div");
+        card.className = "best-match-card";
+
+        const h3 = document.createElement("h3");
+        h3.textContent = CAREER_TITLES[key];
+        card.appendChild(h3);
+
+        const whyLabel = document.createElement("p");
+        whyLabel.innerHTML = "<strong>Why " + CAREER_TITLES[key] + "?</strong>";
+        card.appendChild(whyLabel);
+
+        const explanation = document.createElement("p");
+        explanation.textContent = CAREER_EXPLANATIONS[key];
+        card.appendChild(explanation);
+
+        card.appendChild(buildExploreLink(key));
+
+        bestMatchWrap.appendChild(card);
+    });
+
+    rankingList.innerHTML = "";
+    list.forEach(c => {
+        const li = document.createElement("li");
+        li.className = "ranking-item";
+
+        const name = document.createElement("span");
+        name.className = "career-name";
+        name.textContent = c.title;
+        li.appendChild(name);
+
+        const badge = document.createElement("span");
+        const badgeClassMap = {
+            "Best Match":"best",
+            "Strong Match":"strong",
+            "Good Match":"good",
+            "Possible Match":"possible"
+        };
+        badge.className = "badge " + badgeClassMap[c.label];
+        badge.textContent = c.label;
+        li.appendChild(badge);
+
+        const link = document.createElement("a");
+        link.className = "explore-link";
+        link.href = "explore.html?career=" + c.key;
+        link.textContent = "Explore \u2192";
+        li.appendChild(link);
+
+        rankingList.appendChild(li);
+    });
+}
+
+function restartQuiz(){
+    answers = new Array(QUESTIONS.length).fill(null);
+    currentIndex = 0;
+    pageSubtitle.textContent = "Answer 12 questions to discover which IS career paths best match your interests, strengths, and preferred way of working.";
+    resultsView.style.display = "none";
+    quizView.style.display = "block";
+    renderQuestion();
+}
+
+backBtn.addEventListener("click", goBack);
+nextBtn.addEventListener("click", goNext);
+restartBtn.addEventListener("click", restartQuiz);
+
+renderQuestion();
+
+</script>
+
 </body>
 </html>
-
-
