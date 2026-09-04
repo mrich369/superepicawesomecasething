@@ -43,6 +43,32 @@ if (aiDisclosureButton && aiDisclosureModal) {
 	});
 }
 
+const sourcesButton = document.getElementById('sourcesButton');
+const sourcesModal = document.getElementById('sourcesModal');
+
+if (sourcesButton && sourcesModal) {
+	sourcesButton.addEventListener('click', () => {
+		sourcesModal.classList.remove('hidden');
+	});
+
+	const sourcesClose = sourcesModal.querySelector('.close-btn');
+	sourcesClose?.addEventListener('click', () => {
+		sourcesModal.classList.add('hidden');
+	});
+
+	sourcesModal.addEventListener('click', (event) => {
+		if (event.target === sourcesModal) {
+			sourcesModal.classList.add('hidden');
+		}
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') {
+			sourcesModal.classList.add('hidden');
+		}
+	});
+}
+
 // On load: if ?career=... is present, open corresponding accordion
 window.addEventListener('DOMContentLoaded', () => {
 	const params = new URLSearchParams(window.location.search);
